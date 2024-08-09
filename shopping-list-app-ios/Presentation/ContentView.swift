@@ -13,7 +13,9 @@ struct ContentView: View {
                 Text("List")
             }
 
-            NavigationView {}
+            NavigationView {
+                ArchivedShoppingListsView(modelContext: modelContext)
+            }
             .tabItem {
                 Image(systemName: "archivebox")
                 Text("Archived")

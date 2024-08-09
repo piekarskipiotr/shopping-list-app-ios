@@ -14,11 +14,13 @@ final class Grocery {
     let shoppingListId: String
     let name: String
     let isDone: Bool
+    let createdAt: Date
     
-    init(id: String = UUID().uuidString, shopingListId: String, name: String, isDone: Bool = false) {
+    init(id: String = UUID().uuidString, shopingListId: String, name: String, isDone: Bool = false, createdAt: Date = Date()) {
         self.id = id
         self.shoppingListId = shopingListId
         self.name = name
         self.isDone = isDone
+        self.createdAt = createdAt
     }
 }

@@ -10,6 +10,7 @@ import SwiftData
 
 struct ShoppingListsView: View {
     @State private var viewModel: ShoppingListsViewModel
+    @State private var isShowingSheet = false
     
     init(modelContext: ModelContext) {
             let viewModel = ShoppingListsViewModel(modelContext: modelContext)
@@ -17,13 +18,23 @@ struct ShoppingListsView: View {
         }
 
     var body: some View {
-        List(viewModel.shoppingLists, id: \.id) { item in
-            Text(item.name)
-        }.navigationTitle("List")
-            .navigationBarItems(trailing: Button(action: {
-                
-            }) {
-                Image(systemName: "plus")
-            })
+        ZStack {
+            List(viewModel.shoppingLists, id: \.id) { item in
+                Text(item.name)
+            }.navigationTitle("List")
+                .navigationBarItems(trailing: Button(action: {
+                   isShowingSheet = true
+                }) {
+                    Image(systemName: "plus")
+                })
+        }
+        .sheet(isPresented: $isShowingSheet) {
+            AddItemBottomSheetView(onAdd: { name in
+                            viewModel.addShoppingList(name: name)
+                            isShowingSheet = false
+                        })
+                        .presentationDetents([.height(200)])
+                        .presentationDragIndicator(.visible)
+                    }
     }
 }

@@ -1,20 +1,19 @@
 //
-//  ShoppingListsViewModel.swift
+//  ArchivedShoppingListsViewModel.swift
 //  shopping-list-app-ios
 //
-//  Created by Piotr Piekarski on 02/08/2024.
+//  Created by Piotr Piekarski on 09/08/2024.
 //
 
 import Foundation
 import SwiftData
 
-extension ShoppingListsView {
+extension ArchivedShoppingListsView {
     
     @Observable
-    class ShoppingListsViewModel: ObservableObject {
+    class ArchivedShoppingListsViewModel: ObservableObject {
         var modelContext: ModelContext
-        var shoppingLists = [ShoppingListModel]()
-        
+        var archivedShoppingLists = [ShoppingListModel]()
         
         init(modelContext: ModelContext) {
             self.modelContext = modelContext
@@ -24,18 +23,13 @@ extension ShoppingListsView {
         func fetchData() {
             do {
                 let predicate = #Predicate<ShoppingListModel> {
-                            $0.isArchived == false
+                            $0.isArchived == true
                         }
                 let descriptor = FetchDescriptor<ShoppingListModel>(predicate: predicate, sortBy: [SortDescriptor(\.createdAt, order: .reverse)])
-                shoppingLists = try modelContext.fetch(descriptor)
+                archivedShoppingLists = try modelContext.fetch(descriptor)
             } catch {
                print("Fetch failed")
             }
-        }
-        
-        func addShoppingList(name: String) {
-            modelContext.insert(ShoppingListModel(name: name))
-            fetchData()
         }
     }
 }

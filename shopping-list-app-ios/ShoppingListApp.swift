@@ -9,10 +9,11 @@ import SwiftUI
 import SwiftData
 
 @main
-struct shopping_list_app_iosApp: App {
+struct ShoppingListApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            ShoppingListModel.self,
+            Grocery.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -22,11 +23,10 @@ struct shopping_list_app_iosApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-        }
-        .modelContainer(sharedModelContainer)
+        }.modelContainer(sharedModelContainer)
     }
 }

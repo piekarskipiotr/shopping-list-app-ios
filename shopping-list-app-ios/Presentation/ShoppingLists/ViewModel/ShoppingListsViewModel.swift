@@ -6,11 +6,33 @@
 //
 
 import Foundation
+import SwiftData
 
-class ShoppingListsViewModel: ObservableObject {
-    @Published var items: [String] = ["Item 1", "Item 2", "Item 3"]
+extension ShoppingListsView {
     
-    func addItem(_ item: String) {
-        items.append(item)
+    @Observable
+    class ShoppingListsViewModel: ObservableObject {
+        var modelContext: ModelContext
+        var shoppingLists = [ShoppingListModel]()
+        
+        
+        init(modelContext: ModelContext) {
+            self.modelContext = modelContext
+            fetchData()
+        }
+       
+        func fetchData() {
+            do {
+                let descriptor = FetchDescriptor<ShoppingListModel>(sortBy: [SortDescriptor(\.name)])
+                shoppingLists = try modelContext.fetch(descriptor)
+            } catch {
+               print("Fetch failed")
+            }
+        }
+        
+        func addTestData() {
+            modelContext.insert(ShoppingListModel(name: "Test"))
+            fetchData()
+        }
     }
 }

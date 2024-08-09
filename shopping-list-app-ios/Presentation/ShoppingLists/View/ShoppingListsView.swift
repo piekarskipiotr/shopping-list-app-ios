@@ -6,16 +6,22 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ShoppingListsView: View {
-    @StateObject private var viewModel = ShoppingListsViewModel()
+    @State private var viewModel: ShoppingListsViewModel
+    
+    init(modelContext: ModelContext) {
+            let viewModel = ShoppingListsViewModel(modelContext: modelContext)
+            _viewModel = State(initialValue: viewModel)
+        }
 
     var body: some View {
-        List(viewModel.items, id: \.self) { item in
-            Text(item)
+        List(viewModel.shoppingLists, id: \.id) { item in
+            Text(item.name)
         }.navigationTitle("List")
             .navigationBarItems(trailing: Button(action: {
-                viewModel.addItem("Test")
+                
             }) {
                 Image(systemName: "plus")
             })

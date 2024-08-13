@@ -20,21 +20,26 @@ extension ShoppingListsView {
             self.modelContext = modelContext
             fetchData()
         }
-       
+        
         func fetchData() {
             do {
                 let predicate = #Predicate<ShoppingListModel> {
-                            $0.isArchived == false
-                        }
+                    $0.isArchived == false
+                }
                 let descriptor = FetchDescriptor<ShoppingListModel>(predicate: predicate, sortBy: [SortDescriptor(\.createdAt, order: .reverse)])
                 shoppingLists = try modelContext.fetch(descriptor)
             } catch {
-               print("Fetch failed")
+                print("Fetch failed")
             }
         }
         
         func addShoppingList(name: String) {
             modelContext.insert(ShoppingListModel(name: name))
+            fetchData()
+        }
+        
+        func deleteShoppingList(shoppingList: ShoppingListModel) {
+            modelContext.delete(shoppingList)
             fetchData()
         }
     }

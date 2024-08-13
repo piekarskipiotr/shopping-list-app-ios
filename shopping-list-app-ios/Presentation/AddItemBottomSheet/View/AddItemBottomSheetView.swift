@@ -13,9 +13,18 @@ struct AddItemBottomSheetView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            TextField("Enter something...", text: $text)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
+            ZStack {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.gray, lineWidth: 1)
+                    .background(Color.black)
+                    .cornerRadius(8)
+                
+                TextField("Enter something...", text: $text)
+                    .padding(.horizontal)
+                    .font(.system(size: 18))
+            }
+            .padding()
+            
             
             Button(action: {
                 onAdd(text)

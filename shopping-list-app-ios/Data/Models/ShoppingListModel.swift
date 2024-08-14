@@ -14,16 +14,35 @@ final class ShoppingListModel {
     let name: String
     var amountOfDoneGroceries: Int
     var amountOfAllGroceries: Int
-    let isArchived: Bool
     let createdAt: Date
     
-    init(id: String = UUID().uuidString, name: String, amountOfDoneGroceries: Int = 0, amountOfAllGroceries: Int = 0, isArchived: Bool = false, createdAt: Date = Date()) {
+    init(id: String = UUID().uuidString, name: String, amountOfDoneGroceries: Int = 0, amountOfAllGroceries: Int = 0, createdAt: Date = Date()) {
         self.id = id
         self.name = name
         self.amountOfDoneGroceries = amountOfDoneGroceries
         self.amountOfAllGroceries = amountOfAllGroceries
-        self.isArchived = isArchived
         self.createdAt = createdAt
+    }
+    
+    func isArchived() -> Bool {
+        return amountOfDoneGroceries == amountOfAllGroceries && amountOfAllGroceries != 0
+    }
+    
+    
+    func increaseAmountOfAllGroceries() {
+        amountOfAllGroceries = amountOfAllGroceries + 1
+    }
+    
+    func decreaseAmountOfAllGroceries() {
+        amountOfAllGroceries = amountOfAllGroceries - 1
+    }
+    
+    func increaseAmountOfDoneGroceries() {
+        amountOfDoneGroceries = amountOfDoneGroceries + 1
+    }
+    
+    func decreaseAmountOfDoneGroceries() {
+        amountOfDoneGroceries = amountOfDoneGroceries - 1
     }
 }
 

@@ -19,16 +19,16 @@ extension ArchivedShoppingListsView {
             self.modelContext = modelContext
             fetchData()
         }
-       
+        
         func fetchData() {
             do {
                 let predicate = #Predicate<ShoppingListModel> {
-                            $0.isArchived == true
-                        }
+                    $0.amountOfDoneGroceries ==  $0.amountOfAllGroceries &&  $0.amountOfAllGroceries != 0
+                }
                 let descriptor = FetchDescriptor<ShoppingListModel>(predicate: predicate, sortBy: [SortDescriptor(\.createdAt, order: .reverse)])
                 archivedShoppingLists = try modelContext.fetch(descriptor)
             } catch {
-               print("Fetch failed")
+                print("Fetch failed")
             }
         }
     }

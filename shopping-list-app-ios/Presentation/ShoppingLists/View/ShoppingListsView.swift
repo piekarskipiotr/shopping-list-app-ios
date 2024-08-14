@@ -11,8 +11,10 @@ import SwiftData
 struct ShoppingListsView: View {
     @State private var viewModel: ShoppingListsViewModel
     @State private var isShowingSheet = false
+    private let modelContext: ModelContext
     
     init(modelContext: ModelContext) {
+        self.modelContext = modelContext
         let viewModel = ShoppingListsViewModel(modelContext: modelContext)
         _viewModel = State(initialValue: viewModel)
     }
@@ -27,10 +29,14 @@ struct ShoppingListsView: View {
     var body: some View {
         ZStack {
             List {
-                ForEach(viewModel.shoppingLists, id: \.id) { item in
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(item.name).font(.headline)
-                        Text("\(item.amountOfDoneGroceries)/\(item.amountOfAllGroceries)").font(.subheadline).foregroundColor(.gray)
+                ForEach(viewModel.shoppingLists, id: \.id) { shoppingList in
+                    NavigationLink(destination: ShoppingListDetailsView(modelContext: modelContext, shoppingList: shoppingList)) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(shoppingList.name).font(.headline)
+                            Text("\(shoppingList.amountOfDoneGroceries)/\(shoppingList.amountOfAllGroceries)")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
                     }
                 }
                 .onDelete(perform: deleteShoppingList)

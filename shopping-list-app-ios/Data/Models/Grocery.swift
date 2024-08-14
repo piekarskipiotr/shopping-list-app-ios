@@ -13,7 +13,7 @@ final class Grocery {
     let id: String
     let shoppingListId: String
     let name: String
-    let isDone: Bool
+    var isDone: Bool
     let createdAt: Date
     
     init(id: String = UUID().uuidString, shopingListId: String, name: String, isDone: Bool = false, createdAt: Date = Date()) {
@@ -22,5 +22,9 @@ final class Grocery {
         self.name = name
         self.isDone = isDone
         self.createdAt = createdAt
+    }
+    
+    func toggle() {
+        self.isDone = !self.isDone
     }
 }

@@ -24,7 +24,7 @@ extension ShoppingListsView {
         func fetchData() {
             do {
                 let predicate = #Predicate<ShoppingListModel> {
-                    $0.isArchived == false
+                    !($0.amountOfDoneGroceries == $0.amountOfAllGroceries && $0.amountOfAllGroceries != 0)
                 }
                 let descriptor = FetchDescriptor<ShoppingListModel>(predicate: predicate, sortBy: [SortDescriptor(\.createdAt, order: .reverse)])
                 shoppingLists = try modelContext.fetch(descriptor)
@@ -32,6 +32,8 @@ extension ShoppingListsView {
                 print("Fetch failed")
             }
         }
+        
+
         
         func addShoppingList(name: String) {
             modelContext.insert(ShoppingListModel(name: name))
